@@ -1,0 +1,10 @@
+ultralytics==8.4.89     # exact version used in the paper
+numpy
+pandas
+pillow
+imagehash               # perceptual hashing (Step 1)
+iterative-stratification  # multi-label stratified split (Step 3)
+pyyaml
+tqdm
+matplotlib
+jupyter

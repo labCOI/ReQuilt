@@ -1,0 +1,60 @@
+# =============================================================================
+# ReQuilt configuration
+# -----------------------------------------------------------------------------
+# Every notebook reads its paths and hyper-parameters from this single file.
+# Edit the "paths" block once to point at your local copy of Quilt-1M.
+# Relative paths are resolved against the repository root.
+# =============================================================================
+
+paths:
+  # --- External inputs (download these yourself, see README) ----------------
+  quilt_images_dir: /path/to/quilt_1m                # folder with the 653,213 Quilt-1M images
+  caption_lookup_csv: /path/to/quilt_1M_lookup.csv   # Quilt-1M caption table (caption, image_path)
+  quiltcleaner_dir: /path/to/QuiltCleaner            # QuiltCleaner release (Aubreville et al., 2024):
+                                                     #   predictions_quiltcleaner.csv
+                                                     #   train/val/test_annotations.csv
+
+  # --- Files shipped with this repository -----------------------------------
+  annotation_dir: data/annotations                   # CVAT "YOLO 1.1" export (1,000 images)
+  splits_dir: data/splits                            # train / val file lists (850 / 150)
+  evaluation_dir: data/evaluation                    # held-out evaluation samples used in the paper
+  weights: weights/requilt_yolov8n.pt                # fine-tuned detector (notebook 05 or GitHub Release)
+
+  # --- Everything the pipeline writes ---------------------------------------
+  output_dir: outputs                                # git-ignored working directory
+
+seed: 17
+
+impurity:
+  threshold: 0.5            # an image is "impure" if its "Any impairment" score >= 0.5
+  exclude_prefix: TCGA      # QuiltCleaner manual annotations also cover TCGA tiles (not in Quilt-1M)
+
+dedup:                      # Step 1 - near-duplicate removal
+  hash_size: 8              # 8x8 pHash -> 64-bit hash
+  max_hamming_distance: 5   # pHashes within this distance are near-duplicates
+  num_workers: 8            # parallel processes used for hashing
+
+annotation:                 # Step 2 - annotation sample
+  n_images: 1000
+
+split:                      # Step 3 - multi-label stratified split
+  val_ratio: 0.15           # 850 train / 150 val
+
+evaluation:                 # held-out evaluation samples
+  n_dirty: 1000             # impure images used to evaluate recovery
+  n_clean: 200              # clean images merged into the final recovered dataset
+
+train:                      # Step 4 - detector fine-tuning
+  base_model: yolov8n.pt
+  epochs: 30
+  img_size: 512
+  batch_size: 16
+  patience: 10              # early stopping (epochs without improvement)
+  run_name: requilt_yolov8n
+
+recovery:                   # Steps 5-7 - region scoring, multi-panel split, filtering
+  target_class: Pathology Tissue
+  predict_conf: 0.1         # low pre-filter at inference; the real threshold is below
+  min_confidence: 0.5       # candidate tissue boxes below this are discarded
+  multipanel_iou: 0.5       # boxes overlapping above this are treated as the same panel
+  min_crop_size: 224        # crops narrower OR shorter than this (px) are discarded

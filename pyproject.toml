@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "requilt"
+version = "1.0.0"
+description = "Region-level cleaning pipeline for the Quilt-1M histopathology image-text dataset"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "AGPL-3.0-only" }
+authors = [{ name = "Sana Radman" }, { name = "Hasti Shabani" }]
+dependencies = [
+    "ultralytics==8.4.89",
+    "numpy",
+    "pandas",
+    "pillow",
+    "imagehash",
+    "iterative-stratification",
+    "pyyaml",
+    "tqdm",
+    "matplotlib",
+]
+
+[tool.setuptools]
+packages = ["requilt"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

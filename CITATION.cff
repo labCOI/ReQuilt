@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use ReQuilt, please cite the paper below."
+title: "ReQuilt: A Region-Level Cleaning Pipeline for Quilt-1M"
+authors:
+  - family-names: Radman
+    given-names: Sana
+    affiliation: "Faculty of Electrical Engineering, Shahid Beheshti University"
+  - family-names: Shabani
+    given-names: Hasti
+    affiliation: "Institute of Medical Science and Technology, Shahid Beheshti University"
+license: AGPL-3.0-only
+preferred-citation:
+  type: conference-paper
+  title: "A Region-Level Cleaning Pipeline for Quilt-1M Histopathology Image-Text Dataset"
+  authors:
+    - family-names: Radman
+      given-names: Sana
+    - family-names: Shabani
+      given-names: Hasti
+  collection-title: "33rd National and 11th International Iranian Conference on Biomedical Engineering (ICBME 2026)"
+  publisher:
+    name: IEEE
+  year: 2026
