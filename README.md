@@ -13,7 +13,7 @@
 [![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue?style=flat-square)](LICENSE)
 
 **Sana Radman · Hasti Shabani**<br>
-Faculty of Electrical Engineering · Institute of Medical Science and Technology
+Faculty of Electrical Engineering · Institute of Medical Science and Technology<br>
 Shahid Beheshti University, Tehran, Iran
 
 [Overview](#-overview) · [Results](#-results) · [Pipeline](#-pipeline) · [Quick start](#-quick-start) · [Repository](#-repository-layout) · [Citation](#-citation)
